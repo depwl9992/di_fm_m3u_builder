@@ -1,0 +1,39 @@
+# DI.fm m3u Builder
+A small utility to build an m3u playlist from any set of Digitally Imported internet radio channels.
+Written by Daniel Powell in Embarcadero C++ Builder XE3.
+Unless translated, various VCL libraries are required to rebuild on other systems.
+
+## Features:
+* Toggles back and forth between Premium and Free accounts.
+* Configure any set of bandwidths (3 available in Free mode, 4 available in Premium). This is playlist-wide - selected set of bandwidths will be written for all selected channels.
+* Configure station URLs hosted on 8 redundant, mirrored servers (configurable), or simply link to the hosted .pls file preconfigured with their preferred servers.
+* Premium-vs-Free and Playlist-vs-Server URLs are persistent between sessions via .ini file.
+* Account on [http://www.di.fm](http://www.di.fm) is required to generate a valid 24-byte key. This "listen key" is entered into the application and is also stored in the .ini file.
+
+## Usage:
+1. Type a channel name and "abbreviation" into text fields, then click the "Add" button (the return key in either field will also complete this action). Abbreviation refers to the string within the di.fm URL.
+#+BEGIN_QUOTE
+Ex.) Name = Abbreviation: 
+Ambient = ambient
+Bass & Jackin' House = bassnjackinhouse
+Oldschool Techno & Trance = classictechno
+#+END_QUOTE
+2. Entries will be added to the TStringGrid. If at any point, an error is made, entries are editable similar to a spreadsheet application. The entire list can be cleared via the "Reset List" button.
+3. Enter your "listen key" found in [http://www.di.fm](http://www.di.fm/settings) into the Listen Key field.
+4. Select either "Free" or "Premium" Account type based on your subscription with DI.fm. Do note that the Free stations will include periodic advertisements and are limited to lower bandwidths. Free is also available at any time to premium users.
+5. Select either the "Server" or "Playlist" URL type. Server-side playlists are pre-configured with 2 to 8 station URLs. Server-type URLs simply remove this layer of redirection and access the station URLs directly.
+6. Select any number of bandwidths for the Account type. Note: This is a global setting, so all stations you wish to write to the final m3u playlist will have their own sets of bandwidth entries. Bandwidths are not yet configurable per station.
+7. If the Server URL type is selected, all eight redundant servers will be made available, of which any combination can be selected to be written into the playlist. Like bandwidths, servers are global. The m3u playlist will be written with the full list of selected stations under each channel.
+   Warning: If all bandwidths and all stations are selected, each channel will host 32 separate entries in the m3u playlist. With 91 current channels, this is a maximum of approx. 2900 entries in said playlist file.
+8. Click the "Build m3u" button. The utility will collate all data into the right-hand text box, then save its contents to a file via a save dialog.
+9. If a file is saved, the "Play with Default Player" button will be unshaded, and clicking it will run a shell command to open the m3u file in the default configured program for m3u filetypes (likely to be some media player).
+
+## Todo:
+* Allow storage of a list of pre-configured channels and abbreviations. Data will be stored via comma-separated file and read in on utility startup, so that new channels can be imported as needed.
+* Name all form elements for ease of future development.
+* Re-order URL Option/Account boxes with bandwidth checkboxes - entering a listen key should be immediately followed by selection of Account type and URL Option, as both bandwidth and server-list visibility is toggled by said controls.
+* Eventually remove/hide Memo1, as it is for debugging the string building functions only, and not of any use when generating the actual file.
+
+## Longterm:
+* Scrobbling to LastFM would be extremely cool. Right now, the only scrobbler I know of that does this from an Internet radio station is a Foobar2000 plugin. Nothing exists afaik for WMP, Winamp, iTunes, etc.
+* Media player controls would also be fun to do. Be able to control playback of a channel within the default media player via some method of writing a single station to a temporary playlist, then opening via a shell command (much simpler than figuring out the command-line API of each player and playing the URL directly, which, admittedly would be preferred).
