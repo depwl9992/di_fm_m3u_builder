@@ -9,6 +9,8 @@
 #pragma resource "*.dfm"
 TForm1 *Form1;
 String iniFileName;
+TStringList *channelList;
+TStringList *abbrevList;
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner) : TForm(Owner) {
 	TIniFile *ini;
@@ -26,6 +28,7 @@ __fastcall TForm1::TForm1(TComponent* Owner) : TForm(Owner) {
 		RadioGroup1->ItemIndex = ((ini->ReadString("Defaults","URL","Server") == "Server")?1:0);
 		RadioGroup2->ItemIndex = ini->ReadInteger("Defaults","Premium",0);
 	}
+	ReadChannelList();
 	EnableServerBox(RadioGroup1->ItemIndex == 1);
 	EnablePremium(RadioGroup2->ItemIndex == 1);
 	Button4->Enabled = (SaveTextFileDialog1->FileName != "");
@@ -61,6 +64,8 @@ void __fastcall TForm1::Button1Click(TObject *Sender) {
 
 	StringGrid1->Cells[0][rowCur] = Edit1->Text;
 	StringGrid1->Cells[1][rowCur] = Edit2->Text;
+	Edit1->Text = "";
+	Edit2->Text = "";
 	Form1->ActiveControl = Edit1;
 }
 //---------------------------------------------------------------------------
@@ -279,3 +284,48 @@ void TForm1::EnablePremium(bool en) {
 void __fastcall TForm1::Button4Click(TObject *Sender) {
 	ShellExecute(NULL, L"open", SaveTextFileDialog1->FileName.w_str(),NULL,SaveTextFileDialog1->InitialDir.w_str(),SW_SHOWNORMAL);
 }
+
+void TForm1::ReadChannelList() {
+	channelList = new TStringList();
+	abbrevList = new TStringList();
+	String filename = ExtractFilePath(Application->ExeName) + "Channels.txt";
+	if (FileExists(filename)) {
+		TStringList *channels = new TStringList();
+		channels->LoadFromFile(filename);
+		Memo1->Clear();
+		ComboBox1->Clear();
+		ComboBox1->Text = "";
+		for (int i = 0; i < channels->Count; i++) {
+			TStringList *tmp = new TStringList();
+			tmp->StrictDelimiter=true;
+			tmp->Delimiter = '=';
+			tmp->DelimitedText = channels->Strings[i];
+
+			if (tmp->Count == 2) {
+				channelList->Add(tmp->Strings[0]);
+				abbrevList->Add(tmp->Strings[1]);
+			} else {
+				Memo1->Lines->Add("!!!Cannot parse " + channels->Strings[i]);
+				continue;
+			}
+
+			ComboBox1->Items->Add(channelList->Strings[i]);
+
+		}
+		ComboBox1->Text = ComboBox1->Items->Strings[0];
+	} else {
+        Status("Cannot load file.");
+    }
+}
+
+void __fastcall TForm1::ComboBox1Change(TObject *Sender) {
+	for (int i = 0; i < channelList->Count; i++) {
+		if (ComboBox1->Text == channelList->Strings[i]) {
+			Edit1->Text = channelList->Strings[i];
+			Edit2->Text = abbrevList->Strings[i];
+			break;
+		}
+	}
+}
+//---------------------------------------------------------------------------
+

@@ -557,30 +557,30 @@ object Form1: TForm1
   end
   object Panel1: TPanel
     Left = 0
-    Top = 103
+    Top = 99
     Width = 610
-    Height = 424
+    Height = 428
     Align = alBottom
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelOuter = bvNone
     TabOrder = 1
     object Abbreviation: TLabel
       Left = 135
-      Top = 16
+      Top = 26
       Width = 61
       Height = 13
       Caption = 'Abbreviation'
     end
     object Title: TLabel
       Left = 8
-      Top = 16
-      Width = 20
+      Top = 26
+      Width = 39
       Height = 13
-      Caption = 'Title'
+      Caption = 'Channel'
     end
     object Button1: TButton
       Left = 262
-      Top = 29
+      Top = 39
       Width = 60
       Height = 21
       Caption = 'Add'
@@ -589,7 +589,7 @@ object Form1: TForm1
     end
     object Edit1: TEdit
       Left = 8
-      Top = 29
+      Top = 39
       Width = 121
       Height = 21
       TabOrder = 1
@@ -597,7 +597,7 @@ object Form1: TForm1
     end
     object Edit2: TEdit
       Left = 135
-      Top = 29
+      Top = 39
       Width = 121
       Height = 21
       TabOrder = 2
@@ -605,12 +605,13 @@ object Form1: TForm1
     end
     object Panel2: TPanel
       Left = 0
-      Top = 60
+      Top = 64
       Width = 610
       Height = 364
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 3
+      ExplicitTop = 60
       object Memo1: TMemo
         Left = 289
         Top = 0
@@ -637,22 +638,31 @@ object Form1: TForm1
     end
     object Button3: TButton
       Left = 328
-      Top = 29
+      Top = 39
       Width = 60
       Height = 21
       Caption = 'Reset List'
       TabOrder = 4
       OnClick = Button3Click
     end
+    object ComboBox1: TComboBox
+      Left = 8
+      Top = 4
+      Width = 137
+      Height = 21
+      TabOrder = 5
+      OnChange = ComboBox1Change
+    end
   end
   object Panel3: TPanel
     Left = 0
     Top = 0
     Width = 610
-    Height = 103
+    Height = 99
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitHeight = 97
     object Label1: TLabel
       Left = 8
       Top = 2

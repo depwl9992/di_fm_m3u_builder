@@ -55,6 +55,7 @@ __published:	// IDE-managed Components
 	TCheckBox *CheckBox14;
 	TCheckBox *CheckBox15;
 	TButton *Button4;
+	TComboBox *ComboBox1;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Edit1KeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall Button2Click(TObject *Sender);
@@ -64,10 +65,12 @@ __published:	// IDE-managed Components
 	void __fastcall RadioGroup2Click(TObject *Sender);
 	void __fastcall Button4Click(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+	void __fastcall ComboBox1Change(TObject *Sender);
 private:	// User declarations
 	void Status(String msg);
 	void EnableServerBox(bool en);
 	void EnablePremium(bool en);
+	void ReadChannelList();
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 };
