@@ -9,6 +9,7 @@ Features:
 * Configure station URLs hosted on 8 redundant, mirrored servers (configurable), or simply link to the hosted .pls file preconfigured with their preferred servers.
 * Premium-vs-Free and Playlist-vs-Server URLs are persistent between sessions via .ini file.
 * Account on http://www.di.fm is required to generate a valid 24-byte key. This "listen key" is entered into the application and is also stored in the .ini file.
+* Channel list (key=value formatting) is loaded on startup from channels.txt in the program directory. Selecting a channel from the dropdown will queue the channel for adding to the current playlist.
 
 Usage:
 1. Type a channel name and "abbreviation" into text fields, then click the "Add" button (the return key in either field will also complete this action). Abbreviation refers to the string within the di.fm URL.
@@ -27,7 +28,6 @@ Usage:
 9. If a file is saved, the "Play with Default Player" button will be unshaded, and clicking it will run a shell command to open the m3u file in the default configured program for m3u filetypes (likely to be some media player).
 
 Todo:
-* Allow storage of a list of pre-configured channels and abbreviations. Data will be stored via comma-separated file and read in on utility startup, so that new channels can be imported as needed.
 * Name all form elements for ease of future development.
 * Re-order URL Option/Account boxes with bandwidth checkboxes - entering a listen key should be immediately followed by selection of Account type and URL Option, as both bandwidth and server-list visibility is toggled by said controls.
 * Eventually remove/hide Memo1, as it is for debugging the string building functions only, and not of any use when generating the actual file.
