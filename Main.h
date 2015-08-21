@@ -15,6 +15,7 @@
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.Dialogs.hpp>
 #include <Vcl.ExtDlgs.hpp>
+#include "Precomp.h"
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {

@@ -611,7 +611,6 @@ object Form1: TForm1
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 3
-      ExplicitTop = 60
       object Memo1: TMemo
         Left = 289
         Top = 0
@@ -662,7 +661,6 @@ object Form1: TForm1
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitHeight = 97
     object Label1: TLabel
       Left = 8
       Top = 2
