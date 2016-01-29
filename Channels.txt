@@ -1,5 +1,6 @@
 00's Club Hits=00sclubhits
 Ambient=ambient
+Atmospheric Breaks=atmosphericbreaks
 Bass & Jackin' House=bassnjackinhouse
 Bassline=bassline
 Big Beat=bigbeat
@@ -54,6 +55,7 @@ Hardcore=hardcore
 Hardstyle=hardstyle
 House=house
 IDM=idm
+Indie Beats=indiebeats
 Indie Dance=indiedance
 Jazz House=jazzhouse
 Jungle=jungle
