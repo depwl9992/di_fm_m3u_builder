@@ -28,7 +28,7 @@ __published:	// IDE-managed Components
 	TButton *Button1;
 	TLabel *Label1;
 	TEdit *Edit4;
-	TButton *Button2;
+	TButton *Save;
 	TMemo *Memo1;
 	TCheckBox *CheckBox1;
 	TCheckBox *CheckBox2;
@@ -57,9 +57,10 @@ __published:	// IDE-managed Components
 	TCheckBox *CheckBox15;
 	TButton *Button4;
 	TComboBox *ComboBox1;
+	TButton *SaveAs;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Edit1KeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
-	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall SaveClick(TObject *Sender);
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall Button3Click(TObject *Sender);
 	void __fastcall RadioGroup1Click(TObject *Sender);
@@ -72,6 +73,7 @@ private:	// User declarations
 	void EnableServerBox(bool en);
 	void EnablePremium(bool en);
 	void ReadChannelList();
+	void SaveToFile(TStringList *m3u, bool save,bool saveas);
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 };

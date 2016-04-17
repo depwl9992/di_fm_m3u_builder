@@ -5,6 +5,7 @@
 
 #include "Main.h"
 #include "Precomp.h"
+#include <System.IOUtils.hpp>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -27,12 +28,15 @@ __fastcall TForm1::TForm1(TComponent* Owner) : TForm(Owner) {
 	if (ini) {
 		Edit4->Text = ini->ReadString("Defaults","PlayKey","0123456789abcdf012345678");
 		RadioGroup1->ItemIndex = ((ini->ReadString("Defaults","URL","Server") == "Server")?1:0);
-		RadioGroup2->ItemIndex = ini->ReadInteger("Defaults","Premium",0);
+//		RadioGroup2->ItemIndex = ini->ReadInteger("Defaults","Premium",0);
+		RadioGroup2->ItemIndex = 1; // Free no longer available for non-browser stream.
+		RadioGroup2->Enabled = false;
 	}
 	ReadChannelList();
 	EnableServerBox(RadioGroup1->ItemIndex == 1);
-	EnablePremium(RadioGroup2->ItemIndex == 1);
-	Button4->Enabled = (SaveTextFileDialog1->FileName != "");
+	//EnablePremium(RadioGroup2->ItemIndex == 1);
+	EnablePremium(true);
+	//Button4->Enabled = (SaveTextFileDialog1->FileName != "");
 }
 
 void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action) {
@@ -42,7 +46,8 @@ void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action) {
 
 		ini->WriteString("Defaults","PlayKey",Edit4->Text);
 		ini->WriteString("Defaults","URL",((RadioGroup1->ItemIndex==1)?"Server":"Playlist"));
-		ini->WriteBool("Defaults","Premium",(bool)(RadioGroup2->ItemIndex));
+		//ini->WriteBool("Defaults","Premium",(bool)(RadioGroup2->ItemIndex));
+		ini->WriteBool("Defaults","Premium",true);
 	} catch (...) {
 	}
 }
@@ -78,7 +83,7 @@ void __fastcall TForm1::Edit1KeyDown(TObject *Sender, WORD &Key, TShiftState Shi
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Button2Click(TObject *Sender) {
+void __fastcall TForm1::SaveClick(TObject *Sender) {
 	/** Free:
 	 *   Good (96k MP3)
 	 *   http://pub#.di.fm:80/di_<channel>?<key>
@@ -105,6 +110,7 @@ void __fastcall TForm1::Button2Click(TObject *Sender) {
 	 *   http://listen.di.fm/premium_low/<channel>.pls?listen_key=<key>
 	 */
 
+	TButton *btn = dynamic_cast<TButton*>(Sender);
 	String key = Edit4->Text;
 	bool save = false;
 	TStringList *m3u = new TStringList();
@@ -115,7 +121,8 @@ void __fastcall TForm1::Button2Click(TObject *Sender) {
 	}
 
 
-	if (RadioGroup2->ItemIndex == 1) { // Premium
+	if (true) {
+//	if (RadioGroup2->ItemIndex == 1) { // Premium
 		String qualityPlsStr[4] = {"premium","premium_high","premium_medium","premium_low"};
 		String qualitySrvStr[4] = {"","_hi","_aac","_aacp"};
 		String quality[4] = {"128k AAC","320k MP3", "64k AAC", "40k AAC"};
@@ -211,20 +218,41 @@ void __fastcall TForm1::Button2Click(TObject *Sender) {
 				}
 			}
 		}
-    }
+	}
+	Memo1->Lines->Assign(m3u);
+	bool saveAs = false;
+	if (btn == SaveAs) {
+		saveAs = true;
+	}
+	SaveToFile(m3u, save, saveAs);
+	//Button4->Enabled = (SaveTextFileDialog1->FileName != "");
+}
+
+void TForm1::SaveToFile(TStringList *m3u, bool save,bool saveas) {
 	if (save) {
-		Memo1->Lines->Assign(m3u);
-		if (SaveTextFileDialog1->Execute()) {
-			m3u->SaveToFile(SaveTextFileDialog1->FileName);
-			Status("Saved!");
+		if (saveas) {
+			if (SaveTextFileDialog1->Execute()) {
+				m3u->SaveToFile(SaveTextFileDialog1->FileName);
+				Status("Saved!");
+			} else {
+				Status("Playlist not saved.");
+			}
 		} else {
-			Status("Playlist not saved.");
+			if (SaveTextFileDialog1->FileName == "") {
+				if (SaveTextFileDialog1->Execute()) {
+					m3u->SaveToFile(SaveTextFileDialog1->FileName);
+					Status("Saved!");
+				} else {
+					Status("Playlist not saved.");
+				}
+			} else {
+				m3u->SaveToFile(SaveTextFileDialog1->FileName);
+				Status("Saved");
+			}
 		}
 	} else {
-        Status("Nothing to save...");
+		Status("Nothing to save...");
 	}
-
-	Button4->Enabled = (SaveTextFileDialog1->FileName != "");
 }
 
 void TForm1::Status(String msg) {
@@ -263,7 +291,8 @@ void TForm1::EnableServerBox(bool en) {
 	}
 }
 void __fastcall TForm1::RadioGroup2Click(TObject *Sender) {
-	EnablePremium(RadioGroup2->ItemIndex == 1);
+	EnablePremium(true);
+	//EnablePremium(RadioGroup2->ItemIndex == 1);
 }
 void TForm1::EnablePremium(bool en) {
 	GroupBox1->Enabled = en;
@@ -283,7 +312,18 @@ void TForm1::EnablePremium(bool en) {
 }
 
 void __fastcall TForm1::Button4Click(TObject *Sender) {
+	bool fnReset = false;
+	if (SaveTextFileDialog1->FileName == "") {
+		TPath path;
+		SaveTextFileDialog1->FileName = path.GetTempPathW() + "difm.m3u";
+		SaveClick(this);
+		fnReset = true;
+	}
+	Status("Playing " + SaveTextFileDialog1->FileName);
 	ShellExecute(NULL, L"open", SaveTextFileDialog1->FileName.w_str(),NULL,SaveTextFileDialog1->InitialDir.w_str(),SW_SHOWNORMAL);
+	if (fnReset) {
+        SaveTextFileDialog1->FileName = "";
+	}
 }
 
 void TForm1::ReadChannelList() {
@@ -314,6 +354,7 @@ void TForm1::ReadChannelList() {
 
 		}
 		ComboBox1->Text = ComboBox1->Items->Strings[0];
+		ComboBox1Change(this);
 	} else {
         Status("Cannot load file.");
     }

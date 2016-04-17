@@ -668,14 +668,14 @@ object Form1: TForm1
       Height = 13
       Caption = 'Listen Key'
     end
-    object Button2: TButton
+    object Save: TButton
       Left = 8
       Top = 42
       Width = 73
-      Height = 51
-      Caption = 'Build m3u'
+      Height = 24
+      Caption = 'Save'
       TabOrder = 0
-      OnClick = Button2Click
+      OnClick = SaveClick
     end
     object CheckBox1: TCheckBox
       Left = 168
@@ -812,11 +812,15 @@ object Form1: TForm1
       Top = 47
       Width = 74
       Height = 46
+      Hint = 'Premium account required for non-browser streaming.'
+      ParentCustomHint = False
       Caption = 'Account'
       ItemIndex = 0
       Items.Strings = (
         'Free'
         'Premium')
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 8
       OnClick = RadioGroup2Click
     end
@@ -855,6 +859,15 @@ object Form1: TForm1
       TabOrder = 12
       WordWrap = True
       OnClick = Button4Click
+    end
+    object SaveAs: TButton
+      Left = 8
+      Top = 69
+      Width = 73
+      Height = 24
+      Caption = 'Save as'
+      TabOrder = 13
+      OnClick = SaveClick
     end
   end
   object Timer1: TTimer
