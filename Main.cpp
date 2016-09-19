@@ -278,7 +278,7 @@ void __fastcall TForm1::Button3Click(TObject *Sender) {
 	}
 
 	StringGrid1->RowCount = 0;
-
+    SaveTextFileDialog1->FileName = "";
 }
 //---------------------------------------------------------------------------
 
