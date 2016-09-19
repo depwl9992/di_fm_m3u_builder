@@ -70,8 +70,8 @@ void __fastcall TForm1::Button1Click(TObject *Sender) {
 
 	StringGrid1->Cells[0][rowCur] = Edit1->Text;
 	StringGrid1->Cells[1][rowCur] = Edit2->Text;
-	Edit1->Text = "";
-	Edit2->Text = "";
+	//Edit1->Text = "";
+	//Edit2->Text = "";
 	Form1->ActiveControl = Edit1;
 }
 //---------------------------------------------------------------------------
@@ -131,12 +131,16 @@ void __fastcall TForm1::SaveClick(TObject *Sender) {
 
 		m3u->Clear();
 		m3u->Add("#EXTM3U"); // m3u Header
+
 		for (int i = 0; i < StringGrid1->RowCount; i++) {
 			String name = StringGrid1->Cells[0][i];
 			String abbr = StringGrid1->Cells[1][i];
 
 			// Skip any blank or partially blank entries.
-			if (name == "" || abbr == "") continue;
+
+			if (name == "" || abbr == "") {
+				continue;
+			}
 
 			if (RadioGroup1->ItemIndex == 0) {
 				// http://listen.di.fm/<qualPlsStr>/<abbrev>.pls?listen_key=<key>
@@ -314,6 +318,19 @@ void TForm1::EnablePremium(bool en) {
 void __fastcall TForm1::Button4Click(TObject *Sender) {
 	bool fnReset = false;
 	if (SaveTextFileDialog1->FileName == "") {
+
+		if (StringGrid1->RowCount == 1) {
+			if (StringGrid1->Cells[0][0] == "" || StringGrid1->Cells[1][0] == "") {
+				// Grid is blank.
+				if (Edit1->Text != "" && Edit2->Text != "") {
+					// Create playlist if a channel is queued.
+					Button1->Click();
+				} else {
+					MessageDlg("Select a channel or build a playlist first.",mtError,TMsgDlgButtons() << mbOK, 0);
+				}
+			}
+		}
+
 		TPath path;
 		SaveTextFileDialog1->FileName = path.GetTempPathW() + "difm.m3u";
 		SaveClick(this);
@@ -321,6 +338,8 @@ void __fastcall TForm1::Button4Click(TObject *Sender) {
 	}
 	Status("Playing " + SaveTextFileDialog1->FileName);
 	ShellExecute(NULL, L"open", SaveTextFileDialog1->FileName.w_str(),NULL,SaveTextFileDialog1->InitialDir.w_str(),SW_SHOWNORMAL);
+
+	// If temporary playlist created, clear FileName of SaveTextFileDialog1 - we don't want to keep using this file for normal operations.
 	if (fnReset) {
         SaveTextFileDialog1->FileName = "";
 	}
