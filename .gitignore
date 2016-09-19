@@ -35,6 +35,5 @@ Output
 *.od
 git_sha1.h
 *.cbproj*
-*.ini
 *.res
 *.vlb
