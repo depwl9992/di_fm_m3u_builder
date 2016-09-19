@@ -28,15 +28,16 @@ Usage:
 
 Additional notes:
 * Clicking "Play with Default Player" will play the last-saved playlist.
-* Clicking "Play with Default Player" without saving the playlist will create a temporary playlist located in the User Local Temp folder (http://docwiki.embarcadero.com/Libraries/XE3/en/System.IOUtils.TPath.GetTempPath).
-* Clicking "Play with Default Player" without creating a playlist will check if any channel is currently queued, auto-add it to the playlist and create the temporary m3u to play. If no channel is even queued (the Edit fields are blank), an error will be displayed.
+* If playlist is unsaved, Play button will create a temporary m3u located in the User Local Temp folder (http://docwiki.embarcadero.com/Libraries/XE3/en/System.IOUtils.TPath.GetTempPath).
+* If grid is blank (unsaved assumed), Play button will check if any channel is currently queued, auto-add it to the playlist and build a temporary m3u in the user temp folder to play from.
 * As of April 2016, internet playlists are unavailable for free accounts - free accounts can only play from the browser. Therefore the "Free/Premium" radio buttons are greyed out and we always assume we're building a premium-type playlist.
+* "Reset List" button clears the Grid and location of the last-saved playlist.
 
 Todo:
 * Name all form elements for ease of future development.
-* Re-order URL Option/Account boxes with bandwidth checkboxes - entering a listen key should be immediately followed by selection of Account type and URL Option, as both bandwidth and server-list visibility is toggled by said controls.
-* Eventually remove/hide Memo1, as it is for debugging the string building functions only, and not of any use when generating the actual file.
+* Hint and tabstop all form elements.
+* Eventually remove/hide debugging Memo1.
 
 Longterm:
 * Scrobbling to LastFM would be extremely cool. Right now, the only scrobbler I know of that does this from an Internet radio station is a Foobar2000 plugin. Nothing exists afaik for WMP, Winamp, iTunes, etc.
-* Media player controls would also be fun to do. Be able to control playback of a channel within the default media player via some method of writing a single station to a temporary playlist, then opening via a shell command (much simpler than figuring out the command-line API of each player and playing the URL directly, which, admittedly would be preferred).
+  - See https://tfgmush.org/lastfm.php for development on scrobbling API.
