@@ -42,6 +42,7 @@ Electropop=electropop
 Epic Trance=epictrance
 Eurodance=eurodance
 Funky House=funkyhouse
+Future Bass=futurebass
 Future Beats=futurebeats
 Future Garage=futuregarage
 Future Synthpop=futuresynthpop
