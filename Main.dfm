@@ -780,6 +780,7 @@ object Form1: TForm1
         Width = 28
         Height = 17
         Caption = '5'
+        Enabled = False
         TabOrder = 4
       end
       object CheckBox10: TCheckBox
@@ -788,6 +789,7 @@ object Form1: TForm1
         Width = 28
         Height = 17
         Caption = '6'
+        Enabled = False
         TabOrder = 5
       end
       object CheckBox11: TCheckBox
@@ -796,6 +798,7 @@ object Form1: TForm1
         Width = 28
         Height = 17
         Caption = '7'
+        Enabled = False
         TabOrder = 6
       end
       object CheckBox12: TCheckBox
@@ -804,6 +807,7 @@ object Form1: TForm1
         Width = 28
         Height = 17
         Caption = '8'
+        Enabled = False
         TabOrder = 7
       end
     end
